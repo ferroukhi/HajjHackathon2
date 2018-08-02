@@ -29,15 +29,15 @@ public class HajInformations extends AppCompatActivity {
 
         Cursor patient = db.getpathients();
         patient.moveToFirst();
-        country.setText(patient.getString(0));
-        passeport.setText("");
-        firstname.setText("");
-        lastname.setText("");
-        age.setText("");
-        gender.setText("");
-        height.setText("");
-        weight.setText("");
-        blood.setText("");
+        country.setText(patient.getString(1));
+        passeport.setText(patient.getString(2));
+        firstname.setText(patient.getString(3));
+        lastname.setText(patient.getString(4));
+        age.setText(patient.getString(5));
+        gender.setText(patient.getString(6));
+        height.setText(patient.getString(7));
+        weight.setText(patient.getString(8));
+        blood.setText(patient.getString(9));
 
     }
 }
