@@ -2,6 +2,7 @@ package com.epatientcare.hajjhackathon.epatientcare;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
@@ -71,6 +72,11 @@ public class Database {
     public void deleteAllTableRow(String table)
     {
         db.execSQL("DELETE FROM " + table+ " ");
+    }
+
+    public Cursor getpathients()
+    {
+        return db.rawQuery("SELECT id, country, passport, firstname, lastname, age, gender, height, weight, blood FROM patient ", null);
     }
 
     public Database open()
