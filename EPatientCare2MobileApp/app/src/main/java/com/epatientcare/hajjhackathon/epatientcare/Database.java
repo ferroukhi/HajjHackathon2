@@ -76,7 +76,7 @@ public class Database {
 
     public Cursor getpathients()
     {
-        return db.rawQuery("SELECT id, country, passport, firstname, lastname, age, gender, height, weight, blood FROM patient ", null);
+        return db.rawQuery("SELECT _id, country, passport, firstname, lastname, age, gender, height, weight, blood FROM patient ", null);
     }
 
     public Database open()

@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    Toast.makeText(getApplicationContext(), "This haj content doesn't exist in our database",Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), "This haj content doesn't exist in our database",Toast.LENGTH_LONG).show();
                 }
 
             }

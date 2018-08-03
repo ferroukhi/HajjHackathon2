@@ -28,16 +28,18 @@ public class HajInformations extends AppCompatActivity {
         blood = (TextView) findViewById(R.id.blood);
 
         Cursor patient = db.getpathients();
-        patient.moveToFirst();
-        country.setText(patient.getString(1));
-        passeport.setText(patient.getString(2));
-        firstname.setText(patient.getString(3));
-        lastname.setText(patient.getString(4));
-        age.setText(patient.getString(5));
-        gender.setText(patient.getString(6));
-        height.setText(patient.getString(7));
-        weight.setText(patient.getString(8));
-        blood.setText(patient.getString(9));
-
+        if(patient.getCount() > 0)
+        {
+            patient.moveToFirst();
+            country.setText(patient.getString(1));
+            passeport.setText(patient.getString(2));
+            firstname.setText(patient.getString(3));
+            lastname.setText(patient.getString(4));
+            age.setText(patient.getString(5));
+            gender.setText(patient.getString(6));
+            height.setText(patient.getString(7));
+            weight.setText(patient.getString(8));
+            blood.setText(patient.getString(9));
+        }
     }
 }
