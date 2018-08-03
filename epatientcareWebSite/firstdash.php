@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <?php 
 
@@ -37,6 +37,30 @@
 	}
 	
 	
+	$nbrPatient = 0;
+	$nbrConsultation = 0;
+	$nbrIllness = 0;
+	
+	$patientQuery = mysql_query("SELECT COUNT(*) as nbt FROM patients ");
+	if(mysql_num_rows($patientQuery) == 1)
+	{
+		$row = mysql_fetch_array($patientQuery);
+		$nbrPatient = $row['nbt'];
+	}
+	
+	$patientQuery = mysql_query("SELECT COUNT(*) as nbt FROM medicalconsultation ");
+	if(mysql_num_rows($patientQuery) == 1)
+	{
+		$row = mysql_fetch_array($patientQuery);
+		$nbrConsultation = $row['nbt'];
+	}
+	
+	$patientQuery = mysql_query("SELECT COUNT(*) as nbt FROM modality ");
+	if(mysql_num_rows($patientQuery) == 1)
+	{
+		$row = mysql_fetch_array($patientQuery);
+		$nbrIllness = $row['nbt'];
+	}
 	
  ?>
 <head>
@@ -63,8 +87,8 @@
     <!-- Morris Chart Css-->
     <link href="plugins/morrisjs/morris.css" rel="stylesheet" />
 	
-	<!-- JQuery DataTable Css -->
-    <link href="plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
+	<!-- Morris Css -->
+    <link href="plugins/morrisjs/morris.css" rel="stylesheet" />
 
     <!-- Custom Css -->
     <link href="css/style.css" rel="stylesheet">
@@ -132,23 +156,10 @@
 					<li class="active">
                         <a href="firstop.php">
                             <i class="material-icons">view_list</i>
-                            <span>Hajj List</span>
+                            <span>Dashboard</span>
                         </a>
 					</li>
-                    <li>
-					
-                        <a href="addnewpatient.php" >
-                            <i class="material-icons">add</i>
-                            <span>Add new patient</span>
-                        </a>
-					
-                    </li>		
-					<li>
-                        <a href="addmedicalspeciality.php" >
-                            <i class="material-icons">add</i>
-                            <span>Medical speciality</span>
-                        </a>
-                    </li>					
+                    					
                 </ul>
             </div>
             <!-- #Menu -->
@@ -172,75 +183,51 @@
                 <h2>Home</h2>
             </div>
 			
-			<a href="addnewpatient.php" class="btn btn-primary waves-effect">
-				<i class="material-icons">add</i>
-				<span>Add new patient</span>
-			</a>
-			
-			</br>
-			</br>
+			<!-- Widgets -->
+            <div class="row clearfix">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box bg-cyan hover-expand-effect">
+                        <div class="icon">
+                            <i class="material-icons">person_add</i>
+                        </div>
+                        <div class="content">
+                            <div class="text">PATIENTS</div>
+                            <div class="number"><?php echo $nbrPatient;?></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box bg-pink hover-expand-effect">
+                        <div class="icon">
+                            <i class="material-icons">library_books</i>
+                        </div>
+                        <div class="content">
+                            <div class="text">CONSULTATIONS</div>
+                            <div class="number"><?php echo $nbrConsultation;?></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box bg-orange hover-expand-effect">
+                        <div class="icon">
+                            <i class="material-icons">airline_seat_flat</i>
+                        </div>
+                        <div class="content">
+                            <div class="text">Illness</div>
+                            <div class="number"><?php echo $nbrIllness;?></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 			
 			<div class="row clearfix">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
-                            <h2>
-                                Hajaj List
-                            </h2>
+                            <h2>BAR CHART</h2>
                         </div>
                         <div class="body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
-                                    <thead>
-                                        <tr>
-                                            <th>id</th>
-                                            <th>Country</th>
-                                            <th>Passeport number</th>
-											<th>First name</th>
-											<th>Last name</th>
-                                            <th>Age</th>
-                                            <th>Gender</th>
-                                            <th>Height</th>
-											<th>Weight</th>
-											<th>Blood</th>
-											<th>Consult</th>
-                                        </tr>
-                                    </thead>
-                                  
-                                    <tbody>
-											
-											<?php 
-								
-												$allPatientsInformations = mysql_query("SELECT p.id, c.name, p.passeport, p.firstName, p.lastName, p.age, p.gender, p.height, p.weight, p.bloodgroup  FROM patients p JOIN country c ON c.id = p.fkCountry  ORDER BY fkCountry ");
-												while ($row = mysql_fetch_assoc($allPatientsInformations)) 
-												{
-													echo 
-													"
-													<tr>
-														<td>".$row['id']."</td>
-														<td>".$row['name']."</td>
-														<td>".$row['passeport']."</td>
-														<td>".$row['firstName']."</td>
-														<td>".$row['lastName']."</td>
-														<td>".$row['age']."</td>
-														<td>".$row['gender']."</td>
-														<td>".$row['height']."</td>
-														<td>".$row['weight']."</td>
-														<td>".$row['bloodgroup']."</td>
-														<td>
-															<a href='patientinformations.php?patient=".$row['id']."' class='btn bg-purple btn-circle waves-effect waves-circle waves-float' >
-																<i class='material-icons'>search</i>
-															</a>
-														</td>
-													</tr>
-													";
-												
-												}
-											?>
-                                        
-                                    </tbody>
-                                </table>
-                            </div>
+                            <canvas id="bar_chart" height="150"></canvas>
                         </div>
                     </div>
                 </div>
@@ -268,18 +255,27 @@
 
     <!-- Jquery CountTo Plugin Js -->
     <script src="plugins/jquery-countto/jquery.countTo.js"></script>
+	
+	<!-- ChartJs -->
+    <script src="plugins/chartjs/Chart.bundle.js"></script>
 
-	<!-- Jquery DataTable Plugin Js -->
-    <script src="plugins/jquery-datatable/jquery.dataTables.js"></script>
-    <script src="plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
-    <script src="plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
-    <script src="plugins/jquery-datatable/extensions/export/buttons.flash.min.js"></script>
-    <script src="plugins/jquery-datatable/extensions/export/jszip.min.js"></script>
-    <script src="plugins/jquery-datatable/extensions/export/pdfmake.min.js"></script>
-    <script src="plugins/jquery-datatable/extensions/export/vfs_fonts.js"></script>
-    <script src="plugins/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
-    <script src="plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
-        
+    <!-- Flot Charts Plugin Js -->
+    <script src="plugins/flot-charts/jquery.flot.js"></script>
+    <script src="plugins/flot-charts/jquery.flot.resize.js"></script>
+    <script src="plugins/flot-charts/jquery.flot.pie.js"></script>
+    <script src="plugins/flot-charts/jquery.flot.categories.js"></script>
+    <script src="plugins/flot-charts/jquery.flot.time.js"></script>
+
+    <!-- Sparkline Chart Plugin Js -->
+    <script src="plugins/jquery-sparkline/jquery.sparkline.js"></script>
+	
+	<!-- Morris Plugin Js -->
+    <script src="plugins/raphael/raphael.min.js"></script>
+    <script src="plugins/morrisjs/morris.js"></script>
+
+    <!-- Chart Plugins Js -->
+    <script src="plugins/chartjs/Chart.bundle.js"></script>
+	
 	<!-- Custom Js -->
     <script src="js/admin.js"></script>
 	<script src="js/pages/maps/google.js"></script>

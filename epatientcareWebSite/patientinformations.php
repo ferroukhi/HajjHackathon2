@@ -37,12 +37,12 @@
 	}
 	
 	$patientID = $_GET["patient"];
-	$patientInfoQuery = mysql_query("SELECT * FROM patients WHERE id = '".$patientID."'");
+	$patientInfoQuery = mysql_query("SELECT p.id, c.name, p.passeport, p.firstName, p.lastName, p.age, p.gender, p.height, p.weight, p.bloodgroup FROM patients p JOIN country c ON c.id = p.fkCountry WHERE p.id = '".$patientID."'");
 	if(mysql_num_rows($patientInfoQuery) == 1)
 	{
 		
 		$row = mysql_fetch_array($patientInfoQuery);
-		$country = $row['fkCountry'];
+		$country = $row['name'];
 		$passeportnumber = $row['passeport'];
 		$firstname = $row['firstName'];
 		$lastname = $row['lastName'];
@@ -150,6 +150,12 @@
                             <span>Add new patient</span>
                         </a>
 					</li>
+					<li>
+                        <a href="addmedicalspeciality.php" >
+                            <i class="material-icons">add</i>
+                            <span>Medical speciality</span>
+                        </a>
+                    </li>
                     </li>					
                 </ul>
             </div>

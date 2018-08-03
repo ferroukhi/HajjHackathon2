@@ -35,6 +35,24 @@
 		$lastname = $row['lastname'];
 		$usertype = $row['fkusertype'];
 	}
+	
+	$patientID = $_GET["patient"];
+	$patientInfoQuery = mysql_query("SELECT * FROM patients WHERE id = '".$patientID."'");
+	if(mysql_num_rows($patientInfoQuery) == 1)
+	{
+		
+		$row = mysql_fetch_array($patientInfoQuery);
+		$country = $row['fkCountry'];
+		$passeportnumber = $row['passeport'];
+		$firstname = $row['firstName'];
+		$lastname = $row['lastName'];
+		$age = $row['age'];
+		$gender = $row['gender'];
+		$height = $row['height'];
+		$weight = $row['weight'];
+		$blood = $row['bloodgroup'];
+	}
+	
  ?>
 <head>
     <meta charset="UTF-8">
@@ -63,7 +81,7 @@
     <!-- Custom Css -->
     <link href="css/style.css" rel="stylesheet">
 
-    
+    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="css/themes/all-themes.css" rel="stylesheet" />
 </head>
 
@@ -120,24 +138,14 @@
             <div class="menu">
                 <ul class="list">
                     <li class="header">MENU</li>
-                        <a href="firstop.php">
+					<li class="active">
+                        <a href="firstdoc.php">
                             <i class="material-icons">view_list</i>
                             <span>Hajj List</span>
                         </a>
-                 
-                    </li>	
-					<li class="active">
-                        <a href="addnewpatient.php" >
-                            <i class="material-icons">add</i>
-                            <span>Add new patient</span>
-                        </a>
 					</li>
-					<li>
-                        <a href="addmedicalspeciality.php" >
-                            <i class="material-icons">add</i>
-                            <span>Medical speciality</span>
-                        </a>
-                    </li>
+                    </li>	
+					
                     </li>					
                 </ul>
             </div>
@@ -159,7 +167,7 @@
     <section class="content">
         <div class="container-fluid">
             <div class="block-header">
-                <h2>Add new patient</h2>
+                <h2>Patient informations</h2>
             </div>
 			
 			</br>
@@ -170,146 +178,63 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                                Form
+                                Patient informations
                             </h2>
                         </div>
                         <div class="body">
                             <form class="form-horizontal" method="POST" action="addnewpatient.php">
 								<div class="row clearfix">
                                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                        <label for="country">Country</label>
-                                    </div>
-									<div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <select id="country" name="country" class="form-control show-tick">
-													<option value="">-- Please select --</option>
-													<?php 
-									
-														$allModality = mysql_query("SELECT * FROM country ");
-														while ($row = mysql_fetch_assoc($allModality)) 
-														{
-															echo " <option value='".$row['id']."'>".$row['name']."</option> ";
-														
-														}
-													?>
-												</select>
-                                            </div>
-                                        </div>
-                                    </div>                                       
+                                        <label for="country">Country : </label> <?php echo $country;?>
+                                    </div>                                     
                                 </div>
 								<div class="row clearfix">
                                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                        <label for="passeportnumber">Passport number</label>
-                                    </div>
-                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="text" id="passeportnumber" name="passeportnumber" class="form-control" placeholder="Put the patient passeport number">
-                                            </div>
-                                        </div>
+                                        <label for="passeportnumber">Passport number : </label> <?php echo $passeportnumber;?>
                                     </div>
                                 </div>
 								<div class="row clearfix">
                                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                        <label for="firstname">First Name</label>
-                                    </div>
-                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="text" id="firstname" name="firstname" class="form-control" placeholder="Put the firstname">
-                                            </div>
-                                        </div>
+                                        <label for="firstname">First Name : </label> <?php echo $firstname;?>
                                     </div>
                                 </div>
 								<div class="row clearfix">
                                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                        <label for="lastname">Last Name</label>
+                                        <label for="lastname">Last Name : </label> <?php echo $lastname;?>
                                     </div>
-                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="text" id="lastname" name="lastname" class="form-control" placeholder="Put the lastname">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-								<div class="row clearfix">
-                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                        <label for="age">Age</label>
-                                    </div>
-                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
-                                        <div class="form-group form-float">
-											<div class="form-line">
-												<input min="1" type="number" id="age" name="age" class="form-control" required>
-												<label class="form-label">Age</label>
-											</div>
-											<div class="help-info">The warning step will show up if age is less than 1</div>
-										</div>
-                                    </div>
-                                </div>
-								<div class="row clearfix">
-                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                        <label for="gender">Gender</label>
-                                    </div>
-                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
-                                        <div class="form-group">
-											<input type="radio" name="gender" value="Male" id="male" class="with-gap">
-											<label for="male">Male</label>
-
-											<input type="radio" name="gender" value="Female" id="female" class="with-gap">
-											<label for="female" class="m-l-20">Female</label>
-										</div>
-                                    </div>
-                                </div>
-								<div class="row clearfix">
-                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                        <label for="height">Height</label>
-                                    </div>
-                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
-                                        <div class="form-group form-float">
-											<div class="form-line">
-												<input type="text" name="height" id="height" class="form-control" required>
-												<label class="form-label">Height</label>
-											</div>
-										</div>
-                                    </div>
-                                </div>
-								<div class="row clearfix">
-                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                        <label for="weight">Weight</label>
-                                    </div>
-                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
-                                        <div class="form-group form-float">
-											<div class="form-line">
-												<input type="number" id="weight" name="weight" class="form-control" required>
-												<label class="form-label">Weight</label>
-											</div>
-										</div>
-                                    </div>
-                                </div>
-								<div class="row clearfix">
-                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                        <label for="blood">Blood group</label>
-                                    </div>
-                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
-                                        <div class="form-group form-float">
-											<div class="form-line">
-												<input type="text" id="blood" name="blood" class="form-control" required>
-												<label class="form-label">Blood group</label>
-											</div>
-										</div>
-                                    </div>
-                                </div>
-								
-								</br>
-								</br>
-								
-								<div class="row clearfix">
-                                
-                                    <input type="submit" class="btn btn-primary btn-lg waves-effect" value="Save patient" style="float: right; margin-right: 50px;" />
                                     
                                 </div>
+								<div class="row clearfix">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                        <label for="age">Age : </label> <?php echo $age;?>
+                                    </div>
+                                    
+                                </div>
+								<div class="row clearfix">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                        <label for="gender">Gender : </label> <?php echo $gender;?>
+                                    </div>
+                                    
+                                </div>
+								<div class="row clearfix">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                        <label for="height">Height : </label> <?php echo $height;?>
+                                    </div>
+                                    
+                                </div>
+								<div class="row clearfix">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                        <label for="weight">Weight : </label><?php echo $weight;?>
+                                    </div>
+                                    
+                                </div>
+								<div class="row clearfix">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                        <label for="blood">Blood group : </label> <?php echo $blood;?>
+                                    </div>
+                                    
+                                </div>
+								
 								
 								<?php 
 								
@@ -336,9 +261,7 @@
 										else
 										{	
 											$insertPatient = mysql_query("INSERT INTO patients (id, passeport,firstName,lastName,age,fkCountry,height,weight,gender,bloodgroup) VALUES ('".$id."', '".$passeportnumber."', '".$firstname."', '".$lastname."', '".$age."', '".$country."', '".$height."', '".$weight."', '".$gender."', '".$blood."' )");
-											//header("Location:patientinformations.php?patient=".$id);
-											echo "<script type='text/javascript'>location.href='patientinformations.php?patient=".$id."';</script>"; exit;
-										
+											echo "<div class='msg' style='color:red'> Done".$insertPatient." </div>";
 										}
 									}
 								?>
@@ -348,8 +271,105 @@
                     </div>
                 </div>
             </div>
+			<div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                Add consultation
+                            </h2>
+                        </div>
+                        <div class="body">
+						<form class="form-horizontal" method="POST" action="patientinfoconsult.php?patient=<?php echo $patientID; ?>">
+							<div class="row clearfix">
+								<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+									<label for="modality">Illness </label>
+								</div>
+								<div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+									<div class="form-group">
+										<div class="form-line">
+											<select id="modality" name="modality" class="form-control show-tick">
+												<option value="">-- Please select --</option>
+												<?php 
+								
+													$allModality = mysql_query("SELECT * FROM modality ");
+													while ($row = mysql_fetch_assoc($allModality)) 
+													{
+														echo " <option value='".$row['id']."'>".$row['modalityName']."</option> ";
+													
+													}
+												?>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+
+								
+							<div class="row clearfix">
+								<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+									<label for="description">Description </label>
+								</div>
+								<div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+									<div class="form-group">
+										<div class="form-line">
+											<textarea rows="4" class="form-control no-resize" id="description" name="description" placeholder="Please type what you want..."></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="row clearfix">
+                                
+								<input type="submit" class="btn btn-primary btn-lg waves-effect" value="Add consultation" style="float: right; margin-right: 50px;" />
+								
+							</div>
+							
+							<?php 
+								
+								if(!empty($_POST['description']))
+								{
+									$description = mysql_real_escape_string($_POST['description']);
+									$modality = mysql_real_escape_string($_POST['modality']);
+									$date = date("Y-m-d");
+									$time = date("h:i:sa");
+									
+									$insertConsultation = mysql_query("INSERT INTO medicalconsultation (fkhaj ,date ,time ,note ,fkstate  ) VALUES ('".$patientID."', '".$date."', '".$time."', '".$description."', '".$modality."' )");	
+									echo "<meta http-equiv='refresh' content='0'>";
+								}
+							?>
+						</form>		
+						</div>
+                    </div>
+                </div>
+            </div>
 			
-			
+			<?php 
+								
+				$allConsultation = mysql_query("SELECT * FROM medicalconsultation mc JOIN modality m ON mc.fkstate = m.id  WHERE fkhaj = ".$patientID);
+				while ($row = mysql_fetch_assoc($allConsultation)) 
+				{
+					echo 
+					"
+						<div class='row clearfix'>
+							<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+								<div class='card'>
+									<div class='header'>
+										<h2>
+											Consultation ".$row['date']." - ".$row['time']."
+										</h2>
+									</div>
+									<div class='body'>
+											Illness : ".$row['modalityName']." </br></br></br>
+											Description : ".$row['note']."
+									</div>
+								</div>
+							</div>
+						</div>
+					";
+				
+				}
+			?>
             
         </div>
     </section>

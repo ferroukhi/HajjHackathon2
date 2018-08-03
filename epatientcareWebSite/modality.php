@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <?php 
 
@@ -36,7 +36,7 @@
 		$usertype = $row['fkusertype'];
 	}
 	
-	
+	$speciality = $_GET["speciality"];
 	
  ?>
 <head>
@@ -127,27 +127,26 @@
             <!-- Menu -->
             <div class="menu">
                 <ul class="list">
-
                     <li class="header">MENU</li>
-					<li class="active">
+                    
                         <a href="firstop.php">
                             <i class="material-icons">view_list</i>
                             <span>Hajj List</span>
                         </a>
-					</li>
+                    
                     <li>
-					
                         <a href="addnewpatient.php" >
                             <i class="material-icons">add</i>
                             <span>Add new patient</span>
                         </a>
-					
-                    </li>		
+                    </li>	
 					<li>
+					<li class="active">
                         <a href="addmedicalspeciality.php" >
                             <i class="material-icons">add</i>
                             <span>Medical speciality</span>
                         </a>
+					</li>
                     </li>					
                 </ul>
             </div>
@@ -169,15 +168,9 @@
     <section class="content">
         <div class="container-fluid">
             <div class="block-header">
-                <h2>Home</h2>
+                <h2>Medical Speciality</h2>
             </div>
 			
-			<a href="addnewpatient.php" class="btn btn-primary waves-effect">
-				<i class="material-icons">add</i>
-				<span>Add new patient</span>
-			</a>
-			
-			</br>
 			</br>
 			
 			<div class="row clearfix">
@@ -185,25 +178,36 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                                Hajaj List
+                                Add Medical Speciality
                             </h2>
                         </div>
                         <div class="body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+						<form class="form-horizontal" method="POST" action="modality.php?speciality=<?php echo $speciality; ?>">
+							</br>
+							<div class="row clearfix">
+								<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+									<label for="speaciality">Medical speciality</label>
+								</div>
+								<div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+									<div class="form-group">
+										<div class="form-line">
+											<input type="text" id="speaciality" name="speaciality" class="form-control" placeholder="Entre speciality">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row clearfix">
+								<input type="submit" class="btn btn-primary btn-lg waves-effect" value="Add speciality" style="float: right; margin-right: 50px;" />
+							</div>
+							</br>
+                            <div class="body table-responsive">
+								<table class="table">
                                     <thead>
                                         <tr>
-                                            <th>id</th>
-                                            <th>Country</th>
-                                            <th>Passeport number</th>
-											<th>First name</th>
-											<th>Last name</th>
-                                            <th>Age</th>
-                                            <th>Gender</th>
-                                            <th>Height</th>
-											<th>Weight</th>
-											<th>Blood</th>
-											<th>Consult</th>
+                                            <th>#</th>
+                                            <th>Modality</th>
+											<th>specialty</th>
+											<th></th>
                                         </tr>
                                     </thead>
                                   
@@ -211,36 +215,39 @@
 											
 											<?php 
 								
-												$allPatientsInformations = mysql_query("SELECT p.id, c.name, p.passeport, p.firstName, p.lastName, p.age, p.gender, p.height, p.weight, p.bloodgroup  FROM patients p JOIN country c ON c.id = p.fkCountry  ORDER BY fkCountry ");
-												while ($row = mysql_fetch_assoc($allPatientsInformations)) 
+												$allModality = mysql_query("SELECT * FROM modality m JOIN medicalspecialty ms ON ms.id = m.fkSpecialty  where fkSpecialty = ".$speciality."");
+												$i = 1;
+												while ($row2 = mysql_fetch_assoc($allModality)) 
 												{
 													echo 
 													"
 													<tr>
-														<td>".$row['id']."</td>
-														<td>".$row['name']."</td>
-														<td>".$row['passeport']."</td>
-														<td>".$row['firstName']."</td>
-														<td>".$row['lastName']."</td>
-														<td>".$row['age']."</td>
-														<td>".$row['gender']."</td>
-														<td>".$row['height']."</td>
-														<td>".$row['weight']."</td>
-														<td>".$row['bloodgroup']."</td>
-														<td>
-															<a href='patientinformations.php?patient=".$row['id']."' class='btn bg-purple btn-circle waves-effect waves-circle waves-float' >
-																<i class='material-icons'>search</i>
-															</a>
-														</td>
+														<td>".$i."</td>
+														<td>".$row2['modalityName']."</td>
+														<td>".$row2['specialtyName']."</td>
 													</tr>
 													";
-												
+													$i++;
 												}
 											?>
                                         
                                     </tbody>
                                 </table>
+								
+								
+								<?php 
+								
+									if(!empty($_POST['speaciality']))
+									{
+										$modality = mysql_real_escape_string($_POST['speaciality']);
+										
+										$insertModality = mysql_query("INSERT INTO modality (modalityName, fkSpecialty) VALUES ('".$modality."', '".$speciality."' )");
+										
+										echo "<meta http-equiv='refresh' content='0'>";
+									}
+								?>
                             </div>
+						</form>
                         </div>
                     </div>
                 </div>

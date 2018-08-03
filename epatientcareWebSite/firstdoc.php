@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <?php 
 
@@ -127,28 +127,13 @@
             <!-- Menu -->
             <div class="menu">
                 <ul class="list">
-
                     <li class="header">MENU</li>
-					<li class="active">
-                        <a href="firstop.php">
+                    <li class="active">
+                        <a href="firstdoc.php">
                             <i class="material-icons">view_list</i>
                             <span>Hajj List</span>
                         </a>
-					</li>
-                    <li>
-					
-                        <a href="addnewpatient.php" >
-                            <i class="material-icons">add</i>
-                            <span>Add new patient</span>
-                        </a>
-					
-                    </li>		
-					<li>
-                        <a href="addmedicalspeciality.php" >
-                            <i class="material-icons">add</i>
-                            <span>Medical speciality</span>
-                        </a>
-                    </li>					
+                    </li>				
                 </ul>
             </div>
             <!-- #Menu -->
@@ -172,12 +157,6 @@
                 <h2>Home</h2>
             </div>
 			
-			<a href="addnewpatient.php" class="btn btn-primary waves-effect">
-				<i class="material-icons">add</i>
-				<span>Add new patient</span>
-			</a>
-			
-			</br>
 			</br>
 			
 			<div class="row clearfix">
@@ -211,14 +190,14 @@
 											
 											<?php 
 								
-												$allPatientsInformations = mysql_query("SELECT p.id, c.name, p.passeport, p.firstName, p.lastName, p.age, p.gender, p.height, p.weight, p.bloodgroup  FROM patients p JOIN country c ON c.id = p.fkCountry  ORDER BY fkCountry ");
+												$allPatientsInformations = mysql_query("SELECT * FROM patients ORDER BY fkCountry ");
 												while ($row = mysql_fetch_assoc($allPatientsInformations)) 
 												{
 													echo 
 													"
 													<tr>
 														<td>".$row['id']."</td>
-														<td>".$row['name']."</td>
+														<td>".$row['fkCountry']."</td>
 														<td>".$row['passeport']."</td>
 														<td>".$row['firstName']."</td>
 														<td>".$row['lastName']."</td>
@@ -228,7 +207,7 @@
 														<td>".$row['weight']."</td>
 														<td>".$row['bloodgroup']."</td>
 														<td>
-															<a href='patientinformations.php?patient=".$row['id']."' class='btn bg-purple btn-circle waves-effect waves-circle waves-float' >
+															<a href='patientinfoconsult.php?patient=".$row['id']."' class='btn bg-purple btn-circle waves-effect waves-circle waves-float' >
 																<i class='material-icons'>search</i>
 															</a>
 														</td>
