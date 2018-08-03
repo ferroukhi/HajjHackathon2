@@ -71,7 +71,7 @@ public class Database {
 
     public void deleteAllTableRow(String table)
     {
-        db.execSQL("DELETE FROM " + table+ " ");
+        db.execSQL("DELETE FROM " + table);
     }
 
     public Cursor getpathients()

@@ -1,12 +1,21 @@
 package com.epatientcare.hajjhackathon.epatientcare;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
+
+import org.json.JSONObject;
+
+import static java.lang.Thread.sleep;
 
 public class HajInformations extends AppCompatActivity {
 
+    private ProgressDialog pDialog;
     Database db;
     TextView country, passeport, firstname, lastname, age, gender, height, weight, blood;
     @Override
@@ -28,6 +37,7 @@ public class HajInformations extends AppCompatActivity {
         blood = (TextView) findViewById(R.id.blood);
 
         Cursor patient = db.getpathients();
+        Log.i("RequestCount", ""+patient.getCount());
         if(patient.getCount() > 0)
         {
             patient.moveToFirst();
@@ -42,4 +52,6 @@ public class HajInformations extends AppCompatActivity {
             blood.setText(patient.getString(9));
         }
     }
+
+
 }

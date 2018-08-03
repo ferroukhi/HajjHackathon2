@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        db = new Database(getApplicationContext());
+        db.open();
         qrCodeScan = (ImageView) findViewById(R.id.scancodeqr);
 
         qrCodeScan.setOnClickListener(new View.OnClickListener() {
@@ -128,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         protected String doInBackground(String... args) {
             Log.i("testOfAccess", "Oui");
             URL_IP = URL_IP + idPatient;
-
+            Log.i("URL", ""+URL_IP);
             try
             {
                 // Creating JSON Parser object
@@ -136,7 +138,8 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject object = jParser.getJSONFromUrl(URL_IP);
 
                 isGood = object.getString(TAG_SUCCESS);
-                if(isGood.equals("1"))
+                Log.i("isGood1", ""+isGood);
+                if(isGood.contains("1"))
                 {
                     String country = object.getString(TAG_COUNTRY);
                     String passeportnumber = object.getString(TAG_PASSPORT);
@@ -149,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
                     String blood = object.getString(TAG_BLOOD);
 
                     db.deleteAllTableRow("patient");
+                    Log.i("TestOfValue", ""+country+" "+passeportnumber+" "+firstname+" "+lastname+" "+age+" "+gender+" "+height+" "+weight+" "+blood);
                     db.insererPatient(country, passeportnumber, firstname, lastname, age, gender, height, weight, blood);
                 }
                 else
@@ -172,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
             // dismiss the dialog after getting all products
             pDialog.dismiss();
 
+            Log.i("isGood2", ""+isGood);
             if(isGood.equals("1"))
             {
                 Intent in = new Intent(getApplicationContext(), HajInformations.class);
